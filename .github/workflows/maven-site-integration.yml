@@ -62,6 +62,11 @@ jobs:
           echo "Running DB setup..."
           mysql -h 127.0.0.1 -uroot -proot < src/main/resources/dbsetup.sql
 
+      - name: Run Integration Tests
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -Pintegration integration-test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=alvaroresano
+        
       - name: Run Unit tests and generate converage report
         run: mvn test jacoco:report
       
